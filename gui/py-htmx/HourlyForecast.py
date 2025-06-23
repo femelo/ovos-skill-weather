@@ -79,12 +79,17 @@ class HourlyForecastWidget(Widget):
             _class=[
                 "p-[2vw]",
                 "flex",
-                "grow",
                 "flex-col",
-                "justify-start",
+                "justify-center",
                 "items-center",
-                "bg-blue-50",
+                "rounded-2xl",
+                "shadow-xl",
+                "bg-blue-100",
             ],
+            style={
+                "width": "80vw",
+                "height": "80vh",
+            },
         )
 
     @staticmethod
@@ -119,8 +124,25 @@ class HourlyForecastPage(Page):
         hourly_forecast_widget = HourlyForecastWidget(session_data=session_data)
         self.add_component(hourly_forecast_widget)
 
+        background_container = Div(
+            [hourly_forecast_widget._widget],
+            _id="hourly-forecast-bg",
+            _class=[
+                "h-full",
+                "w-full",
+                "flex",
+                "flex-col",
+                "items-center",
+                "justify-center",
+            ],
+            style={
+                "background": "linear-gradient(to right, rgb(59, 130, 246), rgb(255, 182, 193))",
+                "transition": "background 0.5s ease",
+            },
+        )
+
         self._page = Div(
-            hourly_forecast_widget.widget,
+            [background_container],
             _id="hourly-forecast",
             _class="flex flex-col",
             style={"width": "100vw", "height": "100vh"},
