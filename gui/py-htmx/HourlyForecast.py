@@ -144,6 +144,6 @@ class HourlyForecastPage(Page):
         self._page = Div(
             [background_container],
             _id="hourly-forecast",
-            _class="flex flex-col",
+            _class="flex flex-col fade-in",
             style={"width": "100vw", "height": "100vh"},
         )

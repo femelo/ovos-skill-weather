@@ -172,6 +172,6 @@ class WeatherPage(Page):
         self._page: Div = Div(
             [background_container],
             _id="weather-page",
-            _class="flex flex-col",
+            _class="flex flex-col fade-in",
             style={"width": "100vw", "height": "100vh"},
         )
