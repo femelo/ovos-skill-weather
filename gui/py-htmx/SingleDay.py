@@ -7,9 +7,10 @@ from pyhtmx.html_tag import HTMLTag
 CACHE_DIR = "/cache/ovos-skill-weather.openvoiceos/py-htmx"
 
 
-class WeatherWidget(Widget):
+class SingleDayWeatherWidget(Widget):
     _parameters = (
         "weatherCode",
+        "weatherDate",
         "currentTimezone",
         "currentTemperature",
         "weatherCondition",
@@ -22,11 +23,11 @@ class WeatherWidget(Widget):
     )
 
     def __init__(self, session_data: Optional[Dict[str, Any]] = None):
-        super().__init__(name="weather-widget", session_data=session_data)
+        super().__init__(name="single-day-weather-widget", session_data=session_data)
 
         session_data = session_data or {}
         weather_code = session_data.get("weatherCode", 0)
-        animation_src = WeatherWidget.get_weather_animation(weather_code)
+        animation_src = SingleDayWeatherWidget.get_weather_animation(weather_code)
 
         self._icon: HTMLTag = HTMLTag(
             tag="lottie-player",
@@ -60,6 +61,20 @@ class WeatherWidget(Widget):
                 parameter="currentTemperature",
                 attribute="inner_content",
                 component=self._temperature,
+            ),
+        )
+
+        self._date: Div = Div(
+            inner_content=session_data.get("weatherDate", "Unknown Date"),
+            _id="weather-date",
+            _class="text-[2vw] font-semibold text-gray-800",
+        )
+        self.add_interaction(
+            "weatherDate",
+            SessionItem(
+                parameter="weatherDate",
+                attribute="inner_content",
+                component=self._date,
             ),
         )
 
@@ -101,10 +116,11 @@ class WeatherWidget(Widget):
             [
                 self._icon,
                 self._temperature,
+                self._date,
                 self._location,
                 self._details,
             ],
-            _id="weather-widget",
+            _id="single-day-weather-widget",
             _class=[
                 "p-[2vw]",
                 "flex",
@@ -147,11 +163,11 @@ class WeatherWidget(Widget):
         return animations.get(weather_code, f"{CACHE_DIR}/animations/default_weather.json")
 
 
-class WeatherPage(Page):
+class SingleDayWeatherPage(Page):
     def __init__(self, session_data: Optional[Dict[str, Any]] = None):
-        super().__init__(name="weather-page", session_data=session_data)
+        super().__init__(name="single-day-weather-page", session_data=session_data)
 
-        weather_widget = WeatherWidget(session_data=session_data)
+        weather_widget = SingleDayWeatherWidget(session_data=session_data)
 
         background_container = Div(
             [weather_widget._widget],
@@ -172,7 +188,7 @@ class WeatherPage(Page):
 
         self._page: Div = Div(
             [background_container],
-            _id="weather-page",
+            _id="single-day-weather-page",
             _class="flex flex-col fade-in",
             style={"width": "100vw", "height": "100vh"},
         )

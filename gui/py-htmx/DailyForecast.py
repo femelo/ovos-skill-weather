@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Any, Optional, Dict, List
 from pyhtmx.html_tag import HTMLTag
-from pyhtmx import Div
+from pyhtmx import Div  # type: ignore
 from pyhtmx_gui.kit import Widget, SessionItem, Page
 
 
@@ -14,6 +14,7 @@ class DailyForecastWidget(Widget):
     def __init__(self, session_data: Optional[Dict[str, Any]] = None):
         super().__init__(name="daily-forecast-widget", session_data=session_data)
 
+        session_data = session_data or {}
         forecast: List[Dict[str, Any]] = session_data.get("forecast", {}).get("all", [])
 
         forecast_items: List[Div] = []
