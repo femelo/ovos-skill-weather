@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Any, Optional, Dict
-from pyhtmx import Div  # type: ignore
+from pyhtmx import Div, Ul, Li  # type: ignore
 from pyhtmx_gui.kit import Widget, SessionItem, Page
 from pyhtmx.html_tag import HTMLTag
 
@@ -11,8 +11,6 @@ class SingleDayWeatherWidget(Widget):
     _parameters = (
         "weatherCode",
         "weatherDate",
-        "currentTimezone",
-        "currentTemperature",
         "weatherCondition",
         "weatherLocation",
         "highTemperature",
@@ -50,20 +48,6 @@ class SingleDayWeatherWidget(Widget):
             ),
         )
 
-        self._temperature: Div = Div(
-            inner_content=f"{session_data.get('currentTemperature', '--')}°C",
-            _id="current-temperature",
-            _class="text-[4vw] font-bold text-gray-800",
-        )
-        self.add_interaction(
-            "currentTemperature",
-            SessionItem(
-                parameter="currentTemperature",
-                attribute="inner_content",
-                component=self._temperature,
-            ),
-        )
-
         self._date: Div = Div(
             inner_content=session_data.get("weatherDate", "Unknown Date"),
             _id="weather-date",
@@ -92,30 +76,54 @@ class SingleDayWeatherWidget(Widget):
             ),
         )
 
+        details_items: Dict[str, Li] = {
+            "hightTemperature": Li(
+                f"High: {session_data.get('highTemperature', '--')}°C",
+                _id="high-temp",
+                _class="inline",
+            ),
+            "lowTemperature": Li(
+                f"Low: {session_data.get('lowTemperature', '--')}°C",
+                _id="low-temp",
+                _class="inline",
+            ),
+            "humidity": Li(
+                f"Humidity: {session_data.get('humidity', '--')}%",
+                _id="humidity",
+                _class="inline",
+            ),
+            "windSpeed": Li(
+                f"Wind: {session_data.get('windSpeed', '--')} km/h",
+                _id="wind",
+                _class="inline",
+            ),
+            "chanceOfPrecipitation": Li(
+                f"Precipitation: {session_data.get('chanceOfPrecipitation', '--')}%",
+                _id="precipitation",
+                _class="inline",
+            ),
+        }
         self._details: Div = Div(
-            inner_content=(
-                f"High: {session_data.get('highTemperature', '--')}°C | "
-                f"Low: {session_data.get('lowTemperature', '--')}°C | "
-                f"Humidity: {session_data.get('humidity', '--')}% | "
-                f"Wind: {session_data.get('windSpeed', '--')} km/h | "
-                f"Precipitation: {session_data.get('chanceOfPrecipitation', '--')}%"
+            Ul(
+                [item for item in details_items.values()],
+                style={"list-style-type": "none"},
             ),
             _id="weather-details",
             _class="text-[1.5vw] text-gray-800",
         )
-        self.add_interaction(
-            "weather-details",
-            SessionItem(
-                parameter="details",
-                attribute="inner_content",
-                component=self._details,
-            ),
-        )
+        for key, item in details_items.items():
+            self.add_interaction(
+                key,
+                SessionItem(
+                    parameter=item._id,
+                    attribute="inner_content",
+                    component=item,
+                ),
+            )
 
         self._widget: Div = Div(
             [
                 self._icon,
-                self._temperature,
                 self._date,
                 self._location,
                 self._details,
