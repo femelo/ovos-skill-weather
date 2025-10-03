@@ -21,7 +21,7 @@ class HourlyForecastWidget(Widget):
         for hour in hourly_forecast:
             if isinstance(hour, dict):
                 time = hour.get("time", "--:--")
-                temperature = hour.get("temperature", "--")
+                temperature = hour.get("temperature", " --.- ")
                 condition_code = hour.get("weatherCondition", 0)
 
                 animation_src = self.get_weather_animation(condition_code)
@@ -38,7 +38,7 @@ class HourlyForecastWidget(Widget):
                             style={"width": "6vw", "height": "6vw"},
                         ),
                         Div(
-                            inner_content=f"{temperature}°C",
+                            inner_content=temperature,
                             _class="text-[1.5vw] font-semibold text-gray-800",
                         ),
                     ],

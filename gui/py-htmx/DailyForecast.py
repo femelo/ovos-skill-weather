@@ -20,8 +20,8 @@ class DailyForecastWidget(Widget):
         forecast_items: List[Div] = []
         for day in forecast:
             date = day.get("date", "Unknown")
-            high_temp = day.get("highTemperature", "--")
-            low_temp = day.get("lowTemperature", "--")
+            high_temp = day.get("highTemperature", " --.- ")
+            low_temp = day.get("lowTemperature", " --.- ")
             condition_code = day.get("weatherCondition", 0)
 
             animation_src = self.get_weather_animation(condition_code)
@@ -38,7 +38,7 @@ class DailyForecastWidget(Widget):
                         style={"width": "8vw", "height": "8vw"},
                     ),
                     Div(
-                        inner_content=f"High: {high_temp}°C | Low: {low_temp}°C",
+                        inner_content=f"High: {high_temp} | Low: {low_temp}",
                         _class="text-[1.5vw] font-semibold mt-[0.5vw] text-gray-800",
                     ),
                 ],

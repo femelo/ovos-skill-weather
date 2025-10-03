@@ -50,7 +50,7 @@ class WeatherWidget(Widget):
         )
 
         self._temperature: Div = Div(
-            inner_content=f"{session_data.get('currentTemperature', '--')}°C",
+            inner_content=session_data.get('currentTemperature', ' --.- '),
             _id="current-temperature",
             _class="text-[4vw] font-bold text-gray-800",
         )
@@ -79,11 +79,11 @@ class WeatherWidget(Widget):
 
         self._details: Div = Div(
             inner_content=(
-                f"High: {session_data.get('highTemperature', '--')}°C | "
-                f"Low: {session_data.get('lowTemperature', '--')}°C | "
-                f"Humidity: {session_data.get('humidity', '--')}% | "
-                f"Wind: {session_data.get('windSpeed', '--')} km/h | "
-                f"Precipitation: {session_data.get('chanceOfPrecipitation', '--')}%"
+                f"High: {session_data.get('highTemperature',  ' --.- ')} | "
+                f"Low: {session_data.get('lowTemperature', ' --.- ')} | "
+                f"Humidity: {session_data.get('humidity', '--.- ')} | "
+                f"Wind: {session_data.get('windSpeed', '---.- ')} | "
+                f"Precipitation: {session_data.get('chanceOfPrecipitation', '--.- ')}"
             ),
             _id="weather-details",
             _class="text-[1.5vw] text-gray-800",

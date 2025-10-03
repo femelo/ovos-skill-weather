@@ -248,7 +248,7 @@ class SingleDayWeatherWidget(Widget):
                 [
                     HIGH_TEMP_ICON,
                     Span(
-                        f"{session_data.get('highTemperature', '--')}°C",
+                        session_data.get('highTemperature', ' --.- '),
                         _id="high-temp",
                     )
                 ],
@@ -258,7 +258,7 @@ class SingleDayWeatherWidget(Widget):
                 [
                     LOW_TEMP_ICON,
                     Span(
-                        f"{session_data.get('lowTemperature', '--')}°C",
+                        session_data.get('lowTemperature', ' --.- '),
                         _id="low-temp",
                     )
                 ],
@@ -268,7 +268,7 @@ class SingleDayWeatherWidget(Widget):
                 [
                     HUMIDITY_ICON,
                     Span(
-                        f"{session_data.get('humidity', '--')}%",
+                        session_data.get('humidity', '--.- '),
                         _id="humidity",
                     )
                 ],
@@ -278,7 +278,7 @@ class SingleDayWeatherWidget(Widget):
                 [
                     WIND_ICON,
                     Span(
-                        f"{session_data.get('windSpeed', '--')} km/h",
+                        session_data.get('windSpeed', '---.- '),
                         _id="wind",
                     )
                 ],
@@ -288,7 +288,7 @@ class SingleDayWeatherWidget(Widget):
                 [
                     RAIN_ICON,
                     Span(
-                        f"{session_data.get('chanceOfPrecipitation', '--')}%",
+                        session_data.get('chanceOfPrecipitation', '--.- '),
                         _id="precipitation",
                     )
                 ],
