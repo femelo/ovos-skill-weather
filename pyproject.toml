@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=65.0", "setuptools-scm>=6"]
+requires = ["setuptools>=65.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
@@ -20,8 +20,8 @@ ovos_skill_weather = [
     "**/*.voc",
 ]
 
-[tool.setuptools_scm]
-version_file = "__version__.py"
+[tool.hatch.version]
+path = "src/ovos_skill_weather/__version__.py"
 
 [project]
 name = "ovos-skill-weather"
