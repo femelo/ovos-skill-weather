@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.setuptools.package-data]
-gui = [
+ovos_skill_weather = [
     "**/*.qml",
     "**/qmldir",
     "**/*.json",
@@ -14,15 +14,10 @@ gui = [
     "**/*.svg",
     "**/*.ts",
     "**/*.qm",
-]
-locale = [
     "**/*.rx",
     "**/*.dialog",
     "**/*.intent",
     "**/*.voc",
-]
-translations = [
-    "*/*.json",
 ]
 
 [project]
