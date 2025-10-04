@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=65.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project]
+name = "ovos-skill-weather"
+keywords = ["ovos", "skill", "plugin", "weather"]
+version = "1.0.8a3"
+authors = [
+  { name="JarbasAi", email="jarbasai@mailfence.com" },
+]
+description = "Weather conditions and forecasts for OpenVoiceOS"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache 2.0",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "requests>=2.31.0",
+    "pytz",
+    "ovos-utils>=0.4.0,<1.0.0",
+    "ovos-workshop>=2.2.0,<8.0.0",
+    "ovos-number-parser>=0.0.1,<1.0.0",
+    "ovos-date-parser>=0.0.2,<1.0.0",
+    "ovos-utterance-normalizer>=0.0.1,<1.0.0",
+    "timezonefinder",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pytest-timeout",
+    "ovos-core[skills_lgpl]>=0.0.5a28",
+    "ovos-plugin-manager",
+    "ovos-skills-manager",
+]
+
+[project.urls]
+Homepage = "https://github.com/OpenVoiceOS/ovos-skill-weather"
+Issues = ""https://github.com/OpenVoiceOS/ovos-skill-weather/issues"
+
+[project.ovos.plugin.skill]
+ovos-skill-weather.openvoiceos = "ovos_skill_weather:WeatherSkill"

@@ -4,14 +4,14 @@ from os.path import dirname
 from ovos_workshop.skill_launcher import SkillLoader, PluginSkillLoader
 from ovos_plugin_manager.skills import find_skill_plugins
 from ovos_utils.messagebus import FakeBus
-from skill_ovos_weather import WeatherSkill
+from ovos_skill_weather import WeatherSkill
 
 
 class TestSkillLoading(unittest.TestCase):
     @classmethod
-    def setUpClass(self):
-        self.skill_id = "ovos-skill-weather.openvoiceos"
-        self.path = dirname(dirname(dirname(__file__)))
+    def setUpClass(cls):
+        cls.skill_id = "ovos-skill-weather.openvoiceos"
+        cls.path = dirname(dirname(dirname(__file__)))
 
     def test_from_class(self):
         bus = FakeBus()
