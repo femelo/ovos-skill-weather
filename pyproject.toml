@@ -43,7 +43,7 @@ dev = [
 
 [project.urls]
 Homepage = "https://github.com/OpenVoiceOS/ovos-skill-weather"
-Issues = ""https://github.com/OpenVoiceOS/ovos-skill-weather/issues"
+Issues = "https://github.com/OpenVoiceOS/ovos-skill-weather/issues"
 
-[project.ovos.plugin.skill]
-ovos-skill-weather.openvoiceos = "ovos_skill_weather:WeatherSkill"
+[project.entry-points."ovos.plugin.skill"]
+"ovos-skill-weather.openvoiceos" = "ovos_skill_weather:WeatherSkill"
