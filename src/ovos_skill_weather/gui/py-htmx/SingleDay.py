@@ -7,6 +7,7 @@ from pyhtmx.html_tag import HTMLTag
 
 CACHE_DIR = "/cache/ovos-skill-weather.openvoiceos/py-htmx"
 
+
 FONT_AWESOME_LICENSE = "<!--!{title} {license} {copyright}-->".format(
     title="Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com",
     license="License - https://fontawesome.com/license/free",
@@ -234,8 +235,8 @@ class SingleDayWeatherWidget(Widget):
             "rounded-full",
             "dark:bg-gray-700",
             "dark:text-blue-400",
-            "border",
-            "border-blue-400",
+            # "border",
+            # "border-blue-400",
             "flex",
             "flex-row",
             "justify-start",
