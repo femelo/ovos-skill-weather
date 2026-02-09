@@ -1,5 +1,42 @@
 # Changelog
 
+## [1.0.8a8](https://github.com/OpenVoiceOS/ovos-skill-weather/tree/1.0.8a8) (2026-01-20)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-weather/compare/1.0.8a7...1.0.8a8)
+
+**Merged pull requests:**
+
+- es-es/translate [\#175](https://github.com/OpenVoiceOS/ovos-skill-weather/pull/175) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+
+## [1.0.8a7](https://github.com/OpenVoiceOS/ovos-skill-weather/tree/1.0.8a7) (2026-01-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-weather/compare/1.0.8a6...1.0.8a7)
+
+## [1.0.8a6](https://github.com/OpenVoiceOS/ovos-skill-weather/tree/1.0.8a6) (2026-01-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-weather/compare/1.0.8a5...1.0.8a6)
+
+**Merged pull requests:**
+
+- ca-es/translate [\#173](https://github.com/OpenVoiceOS/ovos-skill-weather/pull/173) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+- gl-es/translate [\#172](https://github.com/OpenVoiceOS/ovos-skill-weather/pull/172) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+
+## [1.0.8a5](https://github.com/OpenVoiceOS/ovos-skill-weather/tree/1.0.8a5) (2026-01-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-weather/compare/1.0.8a4...1.0.8a5)
+
+**Merged pull requests:**
+
+- da-dk/translate [\#168](https://github.com/OpenVoiceOS/ovos-skill-weather/pull/168) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+
+## [1.0.8a4](https://github.com/OpenVoiceOS/ovos-skill-weather/tree/1.0.8a4) (2026-01-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-weather/compare/1.0.8a3...1.0.8a4)
+
+**Merged pull requests:**
+
+- es-es/translate [\#169](https://github.com/OpenVoiceOS/ovos-skill-weather/pull/169) ([gitlocalize-app[bot]](https://github.com/apps/gitlocalize-app))
+
 ## [1.0.8a3](https://github.com/OpenVoiceOS/ovos-skill-weather/tree/1.0.8a3) (2025-09-29)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-skill-weather/compare/1.0.8a2...1.0.8a3)
