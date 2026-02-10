@@ -43,8 +43,8 @@ class HourlyForecastWidget(Widget):
                         ),
                     ],
                     _class=(
-                        "p-[1vw] border-[1px] border-gray-300 rounded-md flex flex-col items-center "
-                        "bg-white shadow-md mb-[1vw]"
+                        "p-[1vw] border-[1px] border-gray-300 rounded-lg flex flex-col items-center "
+                        "bg-white shadow-lg mb-[1vw]"
                     ),
                 )
                 forecast_items.append(forecast_item)
