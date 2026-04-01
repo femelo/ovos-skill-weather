@@ -87,5 +87,5 @@ setup(
         "test": get_requirements("requirements-test.txt")
     },
     keywords='ovos skill plugin',
-    entry_points={'ovos.plugin.skill': PLUGIN_ENTRY_POINT}
+    entry_points={'opm.skill': PLUGIN_ENTRY_POINT}
 )

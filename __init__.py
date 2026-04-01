@@ -412,6 +412,8 @@ class WeatherSkill(OVOSSkill):
             forecast: daily forecasts to display
             weather_location: the geographical location of the weather
         """
+        if not self.gui:
+            return
         self.gui.clear()
         self.gui["currentTimezone"] = self._format_dt(forecast.date_time)
         self.gui["weatherLocation"] = weather_location
@@ -461,23 +463,26 @@ class WeatherSkill(OVOSSkill):
             weather_location: the geographical location of the reported weather
         """
         # display in GUI
+        if not self.gui:
+            return
         self.gui["weatherCode"] = weather.current.condition.animated_code
         self.gui["currentTimezone"] = self._format_dt(weather.current.date_time.now(),
                                                       incl_time=True)
-        self.gui["currentTemperature"] = weather.current.temperature
+        self.gui["currentTemperature"] = self._format_temperature(weather.current.temperature)
         self.gui["weatherCondition"] = weather.current.condition.image
         self.gui["weatherLocation"] = weather_location
-        self.gui["highTemperature"] = weather.daily[0].temperature_high
-        self.gui["lowTemperature"] = weather.daily[0].temperature_low
-        self.gui["chanceOfPrecipitation"] = weather.current.chance_of_precipitation
-        self.gui["windSpeed"] = weather.current.wind_speed
-        self.gui["humidity"] = weather.current.humidity
+        self.gui["highTemperature"] = self._format_temperature(weather.daily[0].temperature_high)
+        self.gui["lowTemperature"] = self._format_temperature(weather.daily[0].temperature_low)
+        self.gui["chanceOfPrecipitation"] = self._format_precipitation(weather.current.chance_of_precipitation)
+        self.gui["windSpeed"] = self._format_wind_speed(weather.current.wind_speed)
+        self.gui["humidity"] = self._format_humidity(weather.current.humidity)
         self.gui.show_page("CurrentWeather", override_idle=20)
         
         # display in mk1
         self.enclosure.deactivate_mouth_events()
         self.enclosure.weather_display(
-            weather.current.condition.code, weather.current.temperature
+            weather.current.condition.code,
+            self._format_temperature(weather.current.temperature)
         )
 
     def _report_hourly_weather(self, intent_data: WeatherIntent):
@@ -524,13 +529,15 @@ class WeatherSkill(OVOSSkill):
             hourly_forecast.append(
                 dict(
                     time=formatted_time,
-                    precipitation=hourly.chance_of_precipitation,
-                    temperature=hourly.temperature,
+                    precipitation=self._format_precipitation(hourly.chance_of_precipitation),
+                    temperature=self._format_temperature(hourly.temperature),
                     weatherCondition=hourly.condition.animated_code,
                 )
             )
-        self.gui["currentTimezone"] = self._format_dt(weather[0].date_time)
-        self.gui["weatherCode"] = weather[0].condition.animated_code
+        if not self.gui:
+            return
+        self.gui["currentTimezone"] = self._format_dt(weather[0].date_time) if weather else None
+        self.gui["weatherCode"] = weather[0].condition.animated_code if weather else None
         self.gui["weatherLocation"] = weather_location
         self.gui["hourlyForecast"] = dict(hours=hourly_forecast)
         self.gui.show_page("HourlyForecast")
@@ -556,21 +563,26 @@ class WeatherSkill(OVOSSkill):
         :param forecast: daily forecasts to display
         """
         # display in the GUI
+        if not self.gui:
+            return
         self.gui.clear()
         self.gui["weatherLocation"] = intent_data.display_location
         self.gui["weatherCode"] = forecast.condition.animated_code
         self.gui["weatherDate"] = self._format_dt(forecast.date_time)
-        self.gui["highTemperature"] = forecast.temperature_high
-        self.gui["lowTemperature"] = forecast.temperature_low
-        self.gui["chanceOfPrecipitation"] = str(forecast.chance_of_precipitation)
-        self.gui["windSpeed"] = forecast.wind_speed_max
-        self.gui["humidity"] = forecast.humidity
+        self.gui["highTemperature"] = self._format_temperature(forecast.temperature_high)
+        self.gui["lowTemperature"] = self._format_temperature(forecast.temperature_low)
+        self.gui["chanceOfPrecipitation"] = self._format_precipitation(forecast.chance_of_precipitation)
+        self.gui["windSpeed"] = self._format_wind_speed(forecast.wind_speed_max)
+        self.gui["humidity"] = self._format_humidity(forecast.humidity)
         self.gui.show_page("SingleDay")
         # and display in the mk1 faceplate
         self.enclosure.deactivate_mouth_events()
+        average_temperature = None
+        if forecast.temperature_high and forecast.temperature_low:
+            average_temperature = (forecast.temperature_high + forecast.temperature_low) / 2
         self.enclosure.weather_display(
             forecast.condition.code,
-            (forecast.temperature_high + forecast.temperature_low) / 2
+            self._format_temperature(average_temperature)
         )
         sleep(5)
         self.enclosure.eyes_blink("b")
@@ -709,11 +721,13 @@ class WeatherSkill(OVOSSkill):
             display_data.append(
                 dict(
                     weatherCondition=day.condition.animated_code,
-                    highTemperature=day.temperature_high,
-                    lowTemperature=day.temperature_low,
+                    highTemperature=self._format_temperature(day.temperature_high),
+                    lowTemperature=self._format_temperature(day.temperature_low),
                     date=nice_weekday(day.date_time, lang=self.lang)[:3],
                 )
             )
+        if not self.gui:
+            return
         self.gui["forecast"] = dict(all=display_data)
         self.gui.show_page("DailyForecast")
 
@@ -918,6 +932,28 @@ class WeatherSkill(OVOSSkill):
                          use_24hour = self.use_24h,
                          use_ampm = not self.use_24h)
 
+    def _format_temperature(self, temperature: str | float | None) -> str:
+        unit = "C" if self.system_unit == "metric" else "F"
+        if temperature is None:
+            return f" --.-°{unit}"
+        return f"{round(float(temperature), 1): 4.1f}°{unit}"
+    
+    def _format_wind_speed(self, wind_speed: str | float | None) -> str:
+        unit = "km/h" if self.system_unit == "metric" else "mph"
+        if wind_speed is None:
+            return f"---.- {unit}"
+        return f"{round(float(wind_speed), 1): 5.1f} {unit}"
+
+    def _format_precipitation(self, precipitation: str | float | None) -> str:
+        if precipitation is None:
+            return "--.-%"
+        return f"{precipitation: 3.1f}%"
+    
+    def _format_humidity(self, humidity: str | float | None) -> str:
+        if humidity is None:
+            return "--.-%"
+        return f"{humidity: 3.1f}%"
+
     @skill_api_method
     def get_current_weather_homescreen(self, message=None):
         """Get the current temperature and weather condition.
@@ -938,9 +974,9 @@ class WeatherSkill(OVOSSkill):
             weather = get_report(weather_config)
 
             result = dict(
-                weather_temp=weather.current.temperature,
-                high_temperature=weather.daily[0].temperature_high,
-                low_temperature=weather.daily[0].temperature_low,
+                weather_temp=self._format_temperature(weather.current.temperature),
+                high_temperature=self._format_temperature(weather.daily[0].temperature_high),
+                low_temperature=self._format_temperature(weather.daily[0].temperature_low),
                 weather_code=weather.current.condition.code,
                 condition_category=weather.current.condition.category,
                 condition_description=self.resources.render_dialog(
